@@ -72,6 +72,35 @@ def close_semantics_test(failures: list) -> None:
     heap.decref(h)  # transferred channel reference
     check("close and drain leave no live handles", heap.live_count() == 0, failures)
 
+    ch3 = Channel(capacity=1, heap=heap)
+    buffered = heap.allocate("buffered")
+    blocked = heap.allocate("blocked")
+    ch3.put(buffered)
+    done = threading.Event()
+    rejected = []
+
+    def blocked_put():
+        try:
+            ch3.put(blocked)
+        except RuntimeError:
+            rejected.append(True)
+        finally:
+            done.set()
+
+    waiter = threading.Thread(target=blocked_put, daemon=True)
+    waiter.start()
+    time.sleep(0.05)
+    check("a full channel blocks the second producer before close", not done.is_set(), failures)
+    ch3.close()
+    waiter.join(timeout=2.0)
+    check("close wakes a blocked producer and rejects its put", done.is_set() and bool(rejected), failures)
+    check("rejected put leaves the creator reference alive", heap.is_alive(blocked), failures)
+    check("close preserves an already buffered value", ch3.get() == buffered, failures)
+    heap.decref(buffered)  # creator reference
+    heap.decref(buffered)  # transferred channel reference
+    heap.decref(blocked)  # rejected put retained only the creator reference
+    check("closed put path leaves no live handles", heap.live_count() == 0, failures)
+
 
 def stress_test(failures: list, num_values: int = 300, num_consumers: int = 5) -> None:
     heap = GCHeap()
