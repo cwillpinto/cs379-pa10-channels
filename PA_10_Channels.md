@@ -1,7 +1,7 @@
 # PA 10: Channels
 
 **Instructor starter repository:** https://github.com/cwillpinto/cs379-pa10-channels
-**Due:** Wednesday, November 4, 2026 at 11:59 PM Central
+**Points:** 100. **Due:** Wednesday, November 4, 2026 at 11:59 PM Central.
 ## CS 379: Programming Languages (Fall 2026)
 
 ### 🔧 Pipeline Context
@@ -56,4 +56,3 @@ CHANNEL_SYNC_VERIFIED
 1. `PA10_Theory.pdf` (or `.md`) — Part A answers.
 2. `channels.py` — your `Channel` implementation and the producer/consumer driver.
 3. Terminal output/screenshot showing the **`CHANNEL_SYNC_VERIFIED`** Success Token from `python test_channels.py`.
-
