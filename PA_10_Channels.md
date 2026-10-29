@@ -54,5 +54,7 @@ CHANNEL_SYNC_VERIFIED
 
 ### 🚀 Submission
 1. `PA10_Theory.pdf` (or `.md`) — Part A answers.
-2. `channels.py` — your `Channel` implementation and the producer/consumer driver.
+2. `channels.py` — your `Channel` implementation and the producer/consumer driver — plus your working prior-stage files.
 3. Terminal output/screenshot showing the **`CHANNEL_SYNC_VERIFIED`** Success Token from `python test_channels.py`.
+
+4. Your student-owned repository URL and commit SHA in Blackboard, alongside the required execution evidence.
